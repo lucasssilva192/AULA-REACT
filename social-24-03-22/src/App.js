@@ -4,6 +4,7 @@ import HomePage from './pages/home';
 import FeedPage from './pages/feed';
 import NotFoundPage from './pages/not-found';
 import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 
 import { UserContext } from './auth';
 
@@ -15,6 +16,7 @@ export default function App(){
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route path="*" element={<Navigate to="/login" replace />}/>
             </Routes>
         </BrowserRouter>

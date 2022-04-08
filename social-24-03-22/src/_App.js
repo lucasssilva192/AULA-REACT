@@ -9,7 +9,7 @@ export const PostContext = React.createContext();
 
 function App(){
     const [state, dispatch] = React.useReducer(reducer, { posts: []});
-    const [username, setUsername] = React.useState("thyagoquintas");
+    const [username, setUsername] = React.useState("");
 
     return (
     <UserContext.Provider value={username}>

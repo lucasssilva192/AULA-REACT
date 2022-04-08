@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 
 const user = {
-    name: "Thyago Quintas",
-    username: "thyagoquintas",
+    nome: "Lucas Santos",
+    username: "whoislvcxs",
     img: "https://media-exp1.licdn.com/dms/image/C4D03AQEEnamQ47SI2Q/profile-displayphoto-shrink_200_200/0/1614316634957?e=1653523200&v=beta&t=-zdQbgGC8YeQAswnT2Pf8vnkeKjJpbU03JliHr-B0X0",
     id: uuid()
 }

@@ -1,7 +1,14 @@
 import React from "react";
 
+import { UserContext } from "../../auth";
+import { ADD_POST } from "../../graphql/post/mutation";
+import { useMutation } from "@apollo/client";
+
 export default function NewPost({isNewPost}) {
     const [text, setText] = React.useState("");
+    const {currentUser} = React.useContext(UserContext)
+    const [addPost] = useMutation(ADD_POST);
+    
     const image = React.useRef();
     
     if(isNewPost){
@@ -27,8 +34,14 @@ export default function NewPost({isNewPost}) {
         let url = await uploadImage(image.current.files[0])
         const newPost = {
             text: text,
-            image: url
+            image: url,
+            user_id : currentUser.id
         }
+        addPost({variables:{
+            image: newPost.image,
+            text: newPost.text,
+            userId: newPost.user_id
+        }})
         console.log(newPost)
     }
     return (

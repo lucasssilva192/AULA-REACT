@@ -21,7 +21,6 @@ export default function LoginPage() {
         loadLogin({ variables: { username } })
             .then((lazy) => {
                 const user = lazy.data.user[0];
-                console.log(password);
                 if (user.password == btoa(password)) {
                     const { id, nome, username } = user;
                     setCurrentUser({ id, nome, username });

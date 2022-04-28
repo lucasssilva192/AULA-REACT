@@ -2,14 +2,15 @@ import React from 'react';
 import Comment from './Comment';
 
 export default function Post({ post }){
+    console.log(post.user);
     return (
         <article style={{ "maxWidth" : '700px' }} className='mx-auto my-3 border rounded-1'>
             <div className='text-start m-3'>
-                <img src={post.user.img} className="rounded-circle" style={{'maxWidth':40, 'maxHeight':40}} />
+                <img src={post.user.image} className="rounded-circle" style={{'maxWidth':40, 'maxHeight':40}} />
                 <span className='mx-2 fw-bold'>{post.user.name}</span>
             </div>
             <div>
-                <img src={post.img} className="img-fluid" />
+                <img src={post.image} className="img-fluid" />
             </div>
             <div className='text-start m-3'>
                 <div>
@@ -17,10 +18,10 @@ export default function Post({ post }){
                     <i className="fa-regular fa-comment-dots fs-4"></i>
                 </div>
                 <div>
-                    <span className='d-block fw-bold'>{ post.likes == 1 ? `${post.likes} like` : `${post.likes} likes`}</span>
+                    <span className='d-block fw-bold'>{ post.like == 1 ? `${post.like} like` : `${post.like} likes`}</span>
                     <span className='fw-bold'>{post.user.username}: </span>
                     <span>{post.text}</span>
-                    { post.comments.map((comment, index)=> <Comment key={index} comment={comment} />) }
+                    { /*post.comments.map((comment, index)=> <Comment key={index} comment={comment} />) */}
                     
                 </div>
             </div>

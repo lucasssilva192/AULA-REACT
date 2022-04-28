@@ -1,26 +1,35 @@
 import React from 'react';
 import Layout from '../components/shared/Layouts';
-import { getPost } from '../data';
+
 import Post from '../components/feed/Post';
 
+import { GET_POSTS } from '../graphql/post/query';
 import { UserContext } from '../auth';
+import { useQuery } from '@apollo/client';
 
 
-export default function FeedPage(){
-    const posts = [getPost(), getPost(), getPost()];
+export default function FeedPage() {
+    const { loading, error, data } = useQuery(GET_POSTS);
     const { currentUser } = React.useContext(UserContext);
 
-    console.log(currentUser);
+    console.log(data);
 
     return (
-        <Layout>
-            <div className="row">
-                <div className="col-10 mx-auto">
-                    { posts.map((post) => <Post key={post.id} post={post} />) }
-                </div>
-            </div>
-        </Layout>
+        <>
+            {loading &&
+                <h1>Carregando</h1>
+            }
+            {!loading &&
+                <Layout>
+                    <div className="row">
+                        <div className="col-10 mx-auto">
+                            {data.post.map((post) => <Post key={post.id} post={post} />)}
+                        </div>
+                    </div>
+                </Layout>
+            }
+        </>
     );
-    
-        
+
+
 }

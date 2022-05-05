@@ -4,9 +4,10 @@ export const UserContext = React.createContext();
 
 export default function AuthContext({children}){
     const [currentUser, setCurrentUser] = React.useState("");
-    
-    return (
+
+    return(
         <UserContext.Provider value={{currentUser, setCurrentUser}}>
             {children}
-        </UserContext.Provider>);
-}
+        </UserContext.Provider>
+    );
+};

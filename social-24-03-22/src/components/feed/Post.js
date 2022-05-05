@@ -1,8 +1,21 @@
 import React from 'react';
-import Comment from './Comment';
+import { useMutation } from "@apollo/client";
+import { LIKE } from '../../graphQL/post/mutation';
+
 
 export default function Post({ post }){
-    console.log(post.user);
+
+    const [ Like ] = useMutation(LIKE);
+
+    const [isIdPost, setIsIdPostt] = React.useState(post.id);
+
+    function handleClick(post){
+        var like = post.like + 1;
+        Like({ variables: {
+            id: post.id, 
+            like: like }});
+    }
+
     return (
         <article style={{ "maxWidth" : '700px' }} className='mx-auto my-3 border rounded-1'>
             <div className='text-start m-3'>
@@ -13,16 +26,16 @@ export default function Post({ post }){
                 <img src={post.image} className="img-fluid" />
             </div>
             <div className='text-start m-3'>
+                    <div>
+                        <a style={{ cursor : 'pointer' }} onClick={(event) => {handleClick(post)}} >
+                            <i className="fa-regular fa-heart fs-4 me-2"></i>
+                        </a>
+                        <i className="fa-regular fa-comment-dots fs-4"></i>
+                    </div>
                 <div>
-                    <i className="fa-regular fa-heart fs-4 me-2"></i>
-                    <i className="fa-regular fa-comment-dots fs-4"></i>
-                </div>
-                <div>
-                    <span className='d-block fw-bold'>{ post.like == 1 ? `${post.like} like` : `${post.like} likes`}</span>
+                    <span className='d-block fw-bold'>{ `${post.like} like(s)`}</span>
                     <span className='fw-bold'>{post.user.username}: </span>
                     <span>{post.text}</span>
-                    { /*post.comments.map((comment, index)=> <Comment key={index} comment={comment} />) */}
-                    
                 </div>
             </div>
         </article>);

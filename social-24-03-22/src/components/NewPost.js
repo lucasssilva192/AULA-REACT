@@ -1,5 +1,6 @@
 import React from 'react';
 import { PostContext } from '../App';
+import { useNavigate } from "react-router-dom";
 
 function NewPost({username}){
     const dispatch = React.useContext(PostContext)
@@ -11,19 +12,22 @@ function NewPost({username}){
         setConteudo(event.target.value);
     }
 
+    const navigate = useNavigate();
+
     function handleClickNewPost(){
         const newPost = {
             conteudo: conteudo,
             image: imagem.current.files[0],
             username: username,
             data: new Date(),
-            likes: 0
+            like: 0
         }
 
         dispatch({ type: "CRIAR_POST", payload: newPost })
 
         setConteudo("");
         imagem.current.value = "";
+        navigate('/');
     }
 
     return <div>

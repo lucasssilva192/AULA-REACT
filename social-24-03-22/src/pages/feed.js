@@ -1,9 +1,9 @@
 import React from 'react';
-import Layout from '../components/shared/Layouts';
+import Layout from '../shared/layout';
 
 import Post from '../components/feed/Post';
 
-import { GET_POSTS } from '../graphql/post/query';
+import { GET_POSTS } from '../graphQL/post/query';
 import { UserContext } from '../auth';
 import { useQuery } from '@apollo/client';
 

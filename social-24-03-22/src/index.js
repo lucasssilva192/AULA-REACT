@@ -2,17 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-//Importação do BD
+//Apollo
 import { ApolloProvider } from '@apollo/client';
-import client from './graphql/client';
+import client from './graphQL/client'
+import AuthContext from './auth'
 
-//Autenticação
-import AuthContext from './auth';
-
-ReactDOM.render(
-    <ApolloProvider client={client}>
-        <AuthContext>
-            <App />
-        </AuthContext>
-    </ApolloProvider>, 
+ReactDOM.render(<ApolloProvider client={client}>
+                    <AuthContext>
+                        <App />
+                    </AuthContext>
+                </ApolloProvider>, 
     document.getElementById("root"));

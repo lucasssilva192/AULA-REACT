@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const GET_LOGIN = gql`
-  query GET_LOGIN($username: String!) {
+query get_login($username: String!) {
     user(where: {username: {_eq: $username}}) {
       id
       nome
@@ -9,4 +9,4 @@ export const GET_LOGIN = gql`
       username
     }
   }
-  `;
+`;

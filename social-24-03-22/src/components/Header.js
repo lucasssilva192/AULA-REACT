@@ -11,10 +11,6 @@ function Header({ username, setUsername }){
         setUsername(user);
         setUser("");
     }
-
-    function handleClickDeslogar(){
-        setUsername("");
-    }
     
     return (
         <div>
@@ -28,7 +24,6 @@ function Header({ username, setUsername }){
             {username &&
                 <>
                     <h1>Bem vindo, {username}</h1>
-                    <button onClick={handleClickDeslogar}>Deslogar</button>
                 </>
 
             }

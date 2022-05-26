@@ -1,54 +1,34 @@
-import { Delete } from '@mui/icons-material'
-import { Avatar, IconButton, Typography } from '@mui/material'
-import React from 'react'
+import { Delete } from '@mui/icons-material';
+import { Avatar, IconButton, Typography } from '@mui/material';
+import React from 'react';
 
-
-
-
-export default function FilaMusica() {
-
-    const musicaFake = {
-        titulo: 'Titulo da Musica',
-        artista: 'Artista da musica',
-        imagem: 'https://pbs.twimg.com/profile_images/1217784855368470531/epouecHA_400x400.jpg'
-    }
-
-    function MusicaNafila({ musica }) {
-        const { imagem, titulo, artista } = musica
+export default function FilaMusica({ queue }){
+    
+    function MusicaNaFila({musica}){
+        const { thumbnail, title, artist } = musica;
+        
+        function handleRemoveQueue(){
+            queue.queueDispatch({ type: 'REMOVE_QUEUE', payload: { musica } })
+        }
 
         return (
-
-            <div style={{display: 'grid', gridAutoFlow: 'column', gridTemplateColumns: '50px auto 50px', alignItems: 'center', margin: '10px'  }}>
-                <Avatar src={imagem} alt="Capa do album" style={{width: '40px', heigth: '40px'}}/>
+            <div style={{ display: 'grid', gridAutoFlow: 'column', gridTemplateColumns: '50px auto 50px', alignItems: 'center', margin: '10px' }}>
+                <Avatar src={thumbnail} alt="Capa do CD" style={{ width:'40px', height: '40px'}} />
                 <div>
-                    <Typography variant="subtitle1">{titulo}</Typography>
-                    <Typography variant="body2">{artista}</Typography>
-
+                    <Typography variant="subtitle1">{title}</Typography>
+                    <Typography variant='body2'>{artist}</Typography>
                 </div>
-                <IconButton><Delete color="error"/></IconButton>
+                <IconButton onClick={handleRemoveQueue}><Delete color="error"/></IconButton>
             </div>
-        )
-
+        );
     }
-    return (
 
+    return(
         <div>
-            <Typography>Próximos da fila (5)</Typography>
-            {Array.from({ length: 5 }, () => musicaFake).map((musica, index) => {
-
-                return (<MusicaNafila key={index} musica={musica} />)
-            })
-            }
-
-
+            <Typography>Próximos da Fila ({ queue.currentQueue.length })</Typography>
+            {queue.currentQueue.map((musica, index) => {
+                return(<MusicaNaFila key={index} musica={musica} />)
+            })}
         </div>
-
     )
-
 }
-
-
-
-
-
-

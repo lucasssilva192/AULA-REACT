@@ -1,6 +1,6 @@
-import { SubscriptionsTwoTone } from '@mui/icons-material'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
-import React, { useEffect } from 'react'
+import { SubscriptionsTwoTone } from '@mui/icons-material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import React, { useEffect } from 'react';
 import YouTubePlayer from 'react-player/youtube';
 import ReactPlayer from 'react-player';
 import { useMutation } from '@apollo/client';
@@ -13,23 +13,24 @@ const DEFAULT_SONG = {
     artist: "",
     thumbnail: "",
     url: ""
-}
+};
 
-export default function AdicionaMusica() {
+export default function AdicionaMusica(){
     const [dialog, setDialog] = React.useState(false);
     const [url, setUrl] = React.useState("");
     const [playable, setPlayable] = React.useState(false);
     const [song, setSong] = React.useState(DEFAULT_SONG);
     const [addSong] = useMutation(ADD_SONG);
-    
-    React.useEffect(()=>{
-        setPlayable(YouTubePlayer.canPlay(url))
+
+    React.useEffect(() => {
+        setPlayable(YouTubePlayer.canPlay(url));
     }, [url]);
 
     function handleEditSong({player}){
         if(playable){
             const realPlayer = player.player.player;
-            const {author, video_id, title} = realPlayer.getVideoData();
+            const { author, video_id, title } = realPlayer.getVideoData();
+
             const newSong = {
                 artist: author,
                 id: video_id,
@@ -38,12 +39,11 @@ export default function AdicionaMusica() {
                 thumbnail: `http://img.youtube.com/vi/${video_id}/0.jpg`
             }
             setSong({...newSong, url});
-            console.log(newSong)
         }
     }
 
     function handleEditDataSong(event){
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setSong(prevSong => ({
             ...prevSong,
             [name] : value
@@ -51,7 +51,7 @@ export default function AdicionaMusica() {
     }
 
     async function handleAddSong(){
-        const {duration, title, artist, thumbnail, url} = song;
+        const { duration, title, artist, thumbnail, url } = song;
         try{
             await addSong({
                 variables: {
@@ -65,43 +65,33 @@ export default function AdicionaMusica() {
             setDialog(false);
             setSong(DEFAULT_SONG);
             setUrl("");
-        } catch(e){
-            alert("Não foi possível adicionar a música, tente novamente mais tarde")
+        }catch(e){
+            alert(`Não foi possível adicionar a música (${e})`);
         }
     }
 
-    return (
+    return(
         <>
             <Dialog open={dialog}>
                 <DialogTitle>Editar Música</DialogTitle>
                 <DialogContent style={{ textAlign: 'center' }}>
-                    <img style={{ width: '90%' }} src={song.thumbnail} alt="imagem da musica" />
-                    <TextField name="title" onChange={handleEditDataSong} style={{ marginTop: '10px' }} variant='outlined' value={song.title} label="Nome da Música" fullWidth />
-                    <TextField name="artist" onChange={handleEditDataSong} style={{ marginTop: '10px' }} variant='outlined' value={song.artist} label="Nome do artista" fullWidth />
-                    <TextField name="thumbnail" onChange={handleEditDataSong} style={{ marginTop: '10px' }} variant='outlined' value={song.thumbnail} label="imagem" fullWidth />
-
-
+                    <img style={{ width: '90%' }} src={song.thumbnail} alt="Imagem da Música"/>
+                    <TextField onChange={handleEditDataSong} style={{ marginTop: '10px'}} variant="outlined" name="title" value={song.title} label="Nome da Música" fullWidth />
+                    <TextField onChange={handleEditDataSong} style={{ marginTop: '10px'}} variant="outlined" value={song.artist} name="artist" label="Nome do Artista" fullWidth/>
+                    <TextField onChange={handleEditDataSong}  style={{ marginTop: '10px'}} variant="outlined" value={song.thumbnail} name="thumbnail" label="Imagem" fullWidth/>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant='outlined' onClick={() => setDialog(false)} color="secondary">Cancelar</Button>
-                    <Button onClick={handleAddSong} color="primary">Salvar</Button>
+                    <Button variant='outlined' onClick={()=>setDialog(false)} color="secondary">Cancelar</Button>
+                    <Button variant='contained' onClick={handleAddSong} color="secondary">Salvar</Button>
                 </DialogActions>
-
             </Dialog>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <TextField style={{ margin: 10 }} variant="outlined" fullWidth type="url" label="Url da música" value={url} onChange={(e)=>setUrl(e.target.value)}/>
-                <Button disabled={!playable} style={{ padding: 15 }} onClick={()=>setDialog(true)} startIcon={<SubscriptionsTwoTone />} variant="contained" color="secondary"  >Adicionar</Button>
+                <TextField style={{ margin: 10 }} variant='outlined' fullWidth type="url" label="Url da música" value={url} onChange={(e)=>setUrl(e.target.value)} />
+                <Button disabled={!playable} style={{ padding: 15 }} onClick={()=>setDialog(true)} startIcon={<SubscriptionsTwoTone />} variant="contained" color="secondary">Adicionar</Button>
             </div>
-            <ReactPlayer url={url} hidden onReady={handleEditSong}></ReactPlayer>
 
+            <ReactPlayer url={url} hidden onReady={handleEditSong} />
         </>
-
     )
-
 }
-
-
-
-
-

@@ -15,6 +15,17 @@ export default function TocadorMusica({ queue }){
     const [playedSeconds, setPlayedSeconds] = React.useState(0);
     const [posicaoNaFila, setPosicaoNaFila] = React.useState(0);
 
+    React.useEffect(()=>{
+        const songIndex = queue.currentQueue.findIndex((song)=>song.id === currentSong.song.id);
+        setPosicaoNaFila(songIndex)
+    },[queue, currentSong.song.id]);
+
+    React.useEffect(()=>{
+        const nextSong = queue.currentQueue[posicaoNaFila + 1];
+        if(nextSong && played > 0.99)
+            songDispatch({type: "CHANGE_SONG", payload: {musica: nextSong}})
+    },[played])
+
     function handlePlayButton(){
         songDispatch({ type: currentSong.isPlaying ? "PAUSE_SONG" : "PLAY_SONG" });
     }
@@ -40,6 +51,18 @@ export default function TocadorMusica({ queue }){
         setChanging(false)
     }
 
+    function handleSongPrevious(){
+        const nextSong = queue.currentQueue[posicaoNaFila - 1];
+        if(nextSong)
+            songDispatch({type: "CHANGE_SONG", payload: {musica: nextSong}})
+    }
+
+    function handleSongNext(){
+        const nextSong = queue.currentQueue[posicaoNaFila + 1];
+        if(nextSong)
+            songDispatch({type: "CHANGE_SONG", payload: {musica: nextSong}})
+    }
+
     return(
         <>
             <Card style={{ display:'flex', flexDirection:'column' , margin: '10px' }}>
@@ -49,11 +72,11 @@ export default function TocadorMusica({ queue }){
                         <Typography variant="subtitle1" component="h3">{currentSong.song.artist}</Typography>
                     </CardContent>
                     <CardActions>
-                        <IconButton><SkipPrevious /></IconButton>
+                        <IconButton onClick={handleSongPrevious}><SkipPrevious /></IconButton>
                         <IconButton onClick={handlePlayButton}>
                            { currentSong.isPlaying ? <Pause style={{fontSize: '40px'}} /> : <PlayArrow style={{fontSize: '40px'}} /> }
                         </IconButton>
-                        <IconButton><SkipNext /></IconButton>
+                        <IconButton onClick={handleSongNext}><SkipNext /></IconButton>
                         <Typography>{ new Date(playedSeconds * 1000).toISOString().substr(11, 8)}</Typography>
                     </CardActions>
                     <CardMedia style={{ width: '140px', height: '140px'}} image={currentSong.song.thumbnail} />
